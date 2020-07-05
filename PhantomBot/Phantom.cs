@@ -1,41 +1,51 @@
-﻿using OpenQA.Selenium;
+﻿using System.Threading;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using PhantomBot.Models;
 
 namespace PhantomBot
 {
     public class Phantom : IPhantom
     {
-        public EInformaModel GetInfo(string value, string url)
+        public DataModel GetInfo(string value, ScraperInfo model)
         {
             var driver = new ChromeDriver("C:\\Users\\Ing-c\\source\\repos\\Gateway\\PhantomBot\\bin\\Debug\\netcoreapp3.1");
-            driver.Navigate().GoToUrl(url);
-            var pageInfo = ProcessPage(driver, value);
+            driver.Navigate().GoToUrl(model.Url);
+            var pageInfo = ProcessPage(driver, value, model);
             driver.Quit();
-
             return pageInfo;
         }
 
-        public static EInformaModel ProcessPage(ChromeDriver driver, string value)
+        public static DataModel ProcessPage(ChromeDriver driver, string value, ScraperInfo model)
         {
-            var scrapedJobNode = driver.FindElement(By.XPath("//input[@id='search2']"));
+            Thread.Sleep(1000);
+            var scrapedJobNode = driver.FindElement(By.XPath(model.Search));
             scrapedJobNode.SendKeys(value);
 
-            driver.FindElement(By.XPath("//input[@id='boton_buscador_nacional']")).Click();
-
-            var eInforma = new EInformaModel
+            if (model.Dropdown)
             {
-                ICI = driver.FindElement(By.XPath("//*[contains(text(),'ICI')]//ancestor::td//following-sibling::td[1]")).Text,
-                Nit = driver.FindElement(By.XPath("//*[contains(text(),'Nit')]//ancestor::td//following-sibling::td[1]")).Text,
-                RazonSocial = driver.FindElement(By.XPath("//*[contains(text(),'Razón Social')]//ancestor::td//following-sibling::td[1]")).Text,
-                FormaJuridica = driver.FindElement(By.XPath("//*[contains(text(),'Forma Jurídica')]//ancestor::td//following-sibling::td[1]")).Text,
-                Departamento = driver.FindElement(By.XPath("//*[contains(text(),'Departamento')]//ancestor::td//following-sibling::td[1]")).Text,
-                DireccionActual = driver.FindElement(By.XPath("//*[contains(text(),'Dirección Actual')]//ancestor::td//following-sibling::td[1]")).Text,
-                Telefono = driver.FindElement(By.XPath("//*[contains(text(),'Teléfono')]//ancestor::td//following-sibling::td[1]")).Text,
-                Email = driver.FindElement(By.XPath("//*[contains(text(),'Email')]//ancestor::td//following-sibling::td[1]")).Text,
-                ActividadCIIU = driver.FindElement(By.XPath("//*[contains(text(),'Actividad CIIU')]//ancestor::td//following-sibling::td[1]")).Text,
-                FechaConstitucion = driver.FindElement(By.XPath("//*[contains(text(),'Fecha Constitución')]//ancestor::td//following-sibling::td[1]")).Text,
-                MatriculaMercantil = driver.FindElement(By.XPath("//*[contains(text(),'Matrícula Mercantil')]//ancestor::td//following-sibling::td[1]")).Text
+                var selectElement = new SelectElement(driver.FindElement(By.XPath("//select[@id='ddlTipId']")));
+                selectElement.SelectByText("Nit");
+            }
+
+            driver.FindElement(By.XPath(model.Submit)).Click();
+
+            var eInforma = new DataModel
+            {
+                ICI = model.ICI != null? driver.FindElement(By.XPath(model.ICI))?.Text : string.Empty,
+                Nit =  model.Nit != null? driver.FindElement(By.XPath(model.Nit))?.Text : string.Empty,
+                RazonSocial =  model.RazonSocial != null? driver.FindElement(By.XPath(model.RazonSocial))?.Text : string.Empty,
+                FormaJuridica =  model.FormaJuridica != null? driver.FindElement(By.XPath(model.FormaJuridica))?.Text : string.Empty,
+                Departamento =  model.Departamento != null? driver.FindElement(By.XPath(model.Departamento))?.Text : string.Empty,
+                DireccionActual =  model.DireccionActual != null? driver.FindElement(By.XPath(model.DireccionActual))?.Text : string.Empty,
+                Telefono =  model.Telefono != null? driver.FindElement(By.XPath(model.Telefono))?.Text : string.Empty,
+                Email =  model.Email != null? driver.FindElement(By.XPath(model.Email))?.Text : string.Empty,
+                ActividadCIIU =  model.ActividadCIIU != null? driver.FindElement(By.XPath(model.ActividadCIIU))?.Text : string.Empty,
+                FechaConstitucion =  model.FechaConstitucion != null? driver.FindElement(By.XPath(model.FechaConstitucion))?.Text : string.Empty,
+                MatriculaMercantil =  model.MatriculaMercantil != null? driver.FindElement(By.XPath(model.MatriculaMercantil))?.Text : string.Empty,
+                FechaActual =  model.FechaActual != null? driver.FindElement(By.XPath(model.FechaActual))?.Text : string.Empty,
+                Estado =  model.Estado != null? driver.FindElement(By.XPath(model.Estado))?.Text : string.Empty,
             };
 
             return eInforma;

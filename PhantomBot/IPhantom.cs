@@ -4,6 +4,6 @@ namespace PhantomBot
 {
     public interface IPhantom
     {
-        EInformaModel GetInfo(string value, string url);
+        DataModel GetInfo(string value, ScraperInfo model);
     }
 }

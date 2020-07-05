@@ -1,9 +1,10 @@
-﻿using PhantomBot.Models;
+﻿using System.Collections.Generic;
+using PhantomBot.Models;
 
 namespace Business.Interfaces
 {
     public interface IInfoService
     {
-        EInformaModel GetInfo(string value);
+        List<DataModel> GetInfo(string value);
     }
 }

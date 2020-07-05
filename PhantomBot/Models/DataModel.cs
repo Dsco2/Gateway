@@ -1,6 +1,6 @@
 ﻿namespace PhantomBot.Models
 {
-    public class EInformaModel
+    public class DataModel
     {
         public string ICI { get; set; }
         public string Nit { get; set; }
@@ -13,5 +13,7 @@
         public string ActividadCIIU { get; set; }
         public string FechaConstitucion { get; set; }
         public string MatriculaMercantil { get; set; }
+        public string FechaActual { get; set; }
+        public string Estado { get; set; }
     }
 }

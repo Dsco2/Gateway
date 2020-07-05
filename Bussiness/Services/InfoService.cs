@@ -1,4 +1,6 @@
-﻿using Business.Interfaces;
+﻿using System.Collections.Generic;
+using Business.Interfaces;
+using Business.Pages;
 using PhantomBot;
 using PhantomBot.Models;
 
@@ -13,11 +15,22 @@ namespace Business.Services
             _phantom = phantom;
         }
 
-        public EInformaModel GetInfo(string value)
+        public List<DataModel> GetInfo(string value)
         {
-            var url = "https://www.einforma.co/informes-empresas";
-            var info =_phantom.GetInfo(value, url);
-            return info;
+            var pagesList = new List<DataModel>();
+
+            var eInforma = PageModel.GetEInformaModel();
+            pagesList.Add(_phantom.GetInfo(value, eInforma));
+
+            var dian = PageModel.GetDianModel();
+            pagesList.Add(_phantom.GetInfo(value, dian));
+            
+            var rues = PageModel.GetRuesModel();
+            pagesList.Add(_phantom.GetInfo(value, rues));
+
+
+
+            return pagesList;
         }
     }
 }
