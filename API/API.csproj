@@ -4,5 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Executable\Executable.csproj" />
+    <ProjectReference Include="..\PhantomBot\PhantomBot.csproj" />
+  </ItemGroup>
+
 
 </Project>

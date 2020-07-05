@@ -15,7 +15,7 @@ namespace Executable
             var serviceProvider = services.BuildServiceProvider();
 
             // calls the Run method in App, which is replacing Main
-            serviceProvider.GetService<App>().Run();
+            serviceProvider.GetService<Phantom>().GetInfo("900806774");
         }
 
         private static IServiceCollection ConfigureServices()
@@ -26,7 +26,7 @@ namespace Executable
             services.AddSingleton(config);
 
             // required to run the application
-            services.AddTransient<App>();
+            //services.AddTransient<App>();
 
             // DI registration
             //services.AddBusinessRegistrations();
