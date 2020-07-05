@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PhantomBot;
+﻿using Business.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 //using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
@@ -15,17 +15,18 @@ namespace API.Controllers
         //    _logger = logger;
         //}
 
-        private readonly IPhantom _phantom;
+        private readonly IInfoService _infoService;
 
-        public GatewayController(IPhantom phantom)
+        public GatewayController(IInfoService infoService)
         {
-            _phantom = phantom;
+            _infoService = infoService;
         }
+
 
         [HttpGet("{value}")]
         public IActionResult Get(string value)
         {
-            var info = _phantom.GetInfo(value);
+            var info = _infoService.GetInfo(value);
             return Ok(info);
         }
     }

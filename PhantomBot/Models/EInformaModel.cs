@@ -1,6 +1,6 @@
 ﻿namespace PhantomBot.Models
 {
-    public class EInforma
+    public class EInformaModel
     {
         public string ICI { get; set; }
         public string Nit { get; set; }

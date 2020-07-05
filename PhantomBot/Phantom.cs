@@ -6,27 +6,24 @@ namespace PhantomBot
 {
     public class Phantom : IPhantom
     {
-        public EInforma GetInfo(string value)
+        public EInformaModel GetInfo(string value, string url)
         {
             var driver = new ChromeDriver("C:\\Users\\Ing-c\\source\\repos\\Gateway\\PhantomBot\\bin\\Debug\\netcoreapp3.1");
-            var url = "https://www.einforma.co/informes-empresas";
-            //Console.WriteLine($"Scraping URL: {url}");
             driver.Navigate().GoToUrl(url);
             var pageInfo = ProcessPage(driver, value);
             driver.Quit();
-            //Console.WriteLine("Console application finished running");
 
             return pageInfo;
         }
 
-        public static EInforma ProcessPage(ChromeDriver driver, string value)
+        public static EInformaModel ProcessPage(ChromeDriver driver, string value)
         {
             var scrapedJobNode = driver.FindElement(By.XPath("//input[@id='search2']"));
             scrapedJobNode.SendKeys(value);
 
             driver.FindElement(By.XPath("//input[@id='boton_buscador_nacional']")).Click();
 
-            var eInforma = new EInforma
+            var eInforma = new EInformaModel
             {
                 ICI = driver.FindElement(By.XPath("//*[contains(text(),'ICI')]//ancestor::td//following-sibling::td[1]")).Text,
                 Nit = driver.FindElement(By.XPath("//*[contains(text(),'Nit')]//ancestor::td//following-sibling::td[1]")).Text,
